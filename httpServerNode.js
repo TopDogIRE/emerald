@@ -1,5 +1,5 @@
 const http = require('http');
-const users = [
+const users = [                 // Users info
     {user:'Kris', age:67},
     {user:'Tommy', age:32},
     {user:'Alan', age:23},
@@ -10,14 +10,14 @@ const users = [
  
 const requestHandler = function(req, res){
 
-    if (req.method === 'GET' && req.url == '/users') {
+    if (req.method === 'GET' && req.url == '/users') {          // Handles Get from /users
         res.writeHead(200);
         res.write(`<html><body>${JSON.stringify(users)}</body></html>`);
         res.end();
 
-    }else if (req.method === 'POST' && req.url == '/') {
+    }else if (req.method === 'POST' && req.url == '/') {        // Handles Post
         res.writeHead(200);
-        let chunks = "";
+        let chunks = "";        // Initialize String 
 
         req.on('data', (chunk) => {
             chunks += chunk;
@@ -25,18 +25,16 @@ const requestHandler = function(req, res){
 
         req.on('end', () => {
             const jsonData = JSON.parse(chunks);
-            console.log(JSON.stringify(jsonData));
-            res.write(`<h1>${jsonData.toString()}<h1>`);
+            const namesOfJson = jsonData.user; // Getting the name form the array of objects
+            res.write(`<h1>${nameOfJson}<h1>`);
             res.end();
         });
         
     }else{
-        res.end('Welecome to the page');
+        res.end('Welecome to the page');        // Welcoming on the home page
     }
 
 }
 
 const server = http.createServer(requestHandler);
-server.listen(8080);
-
-// http://localhost:8080/users
+server.listen(8080);            // http://localhost:8080/users
